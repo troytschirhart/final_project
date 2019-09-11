@@ -2,7 +2,7 @@
   "name": "final_project",
   "version": "1.0.0",
   "engines": {
-  "node": "12.8.1"
+    "node": "12.8.1"
   },
   "description": "## User Stories 1. I, as a user, will be able to log in to the financial portfolio tracker.",
   "main": "server.js",
