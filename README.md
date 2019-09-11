@@ -28,7 +28,8 @@ The following features will meet MVP:
 
 Stretch goals:
 1. Track cost basis for each stock purchase
-2. Estimate taxes when shares are sold
-3. Use average or specified cost basis?
+2. Estimate taxes when shares are sold?
+3. Use average or specified cost basis?  Use an array of arrays?
+4. Assets and Liabilities
 
 ## Wireframes
