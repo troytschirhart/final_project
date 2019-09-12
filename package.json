@@ -1,0 +1,32 @@
+{
+  "name": "final_project",
+  "version": "1.0.0",
+  "engines": {
+    "node": "12.8.1"
+  },
+  "description": "## User Stories 1. I, as a user, will be able to log in to the financial portfolio tracker.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/troytschirhart/final_project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/troytschirhart/final_project/issues"
+  },
+  "homepage": "https://github.com/troytschirhart/final_project#readme",
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "dotenv": "^8.1.0",
+    "express": "^4.17.1",
+    "express-session": "^1.16.2",
+    "mongod": "^2.0.0",
+    "mongoose": "^5.7.0"
+  }
+}
