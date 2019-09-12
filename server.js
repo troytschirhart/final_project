@@ -1,1 +1,1 @@
-alert('hello app')
+console.log('hello app');
