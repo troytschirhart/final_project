@@ -9,22 +9,36 @@
     </head>
     <header>
     </header>
-    <body ng-controller="MoneyController as ctrl">
-            <h1>Here's the app</h1>
+    <body>
+        <div ng-controller="AuthController as actrl">
+            <h1>AuthController Stuff</h1>
             <h2>Create User</h2>
-            <form ng-submit="ctrl.createUser()">
-                <input type="text" ng-model="ctrl.newUsername" placeholder="username" /> <br/>
-                <input type="password" ng-model="ctrl.newPassword" placeholder="password" /> <br/>
+            <form ng-submit="actrl.createUser()">
+                <input type="text" ng-model="actrl.newUsername" placeholder="username" /> <br/>
+                <input type="password" ng-model="actrl.newPassword" placeholder="password" /> <br/>
                 <input type="submit" value="Create User" />
             </form>
             <h2>Login</h2>
-            <form ng-submit="ctrl.logIn()">
-                <input type="text" ng-model="ctrl.username" placeholder="username" /> <br/>
-                <input type="password" ng-model="ctrl.password" placeholder="password" /> <br/>
+            <form ng-submit="actrl.logIn()">
+                <input type="text" ng-model="actrl.username" placeholder="username" /> <br/>
+                <input type="password" ng-model="actrl.password" placeholder="password" /> <br/>
                 <input type="submit" value="Log In" />
             </form>
-            <form ng-submit="ctrl.logOut()">
+            <form ng-submit="actrl.logOut()">
                 <input type="submit" value="Logout" />
             </form>
+        </div>
+        <div ng-controller="MoneyController as mctrl">
+            <h1>MoneyController Stuff</h1>
+            <form ng-submit="mctrl.printHi()">
+                <input type="text" ng-model="mctrl.stock" placeholder="stock" /> <br/>
+                <input type="submit" value="PrintHi" />
+            </form>
+            <h2>Login</h2>
+            <form ng-submit="mctrl.printBye()">
+                <input type="submit" value="Log In" />
+            </form>
+        </div>
+
     </body>
 </html>
