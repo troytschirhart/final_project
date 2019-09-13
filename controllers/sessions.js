@@ -16,21 +16,22 @@ const bcrypt = require('bcrypt');
 router.post('/', (req, res) => {
     User.findOne({username:req.body.username}, (err, foundUser) => {
         if (foundUser) {
-            if(bcrypt.compareSync(req.body.password, foundUser.pasword)){
+            console.log('user found');
+            if(bcrypt.compareSync(req.body.password, foundUser.password)){
                 req.session.currentUser = foundUser;
                 res.status(201).json({
                     status: 201,
                     message: 'session created'
                 })
             } else {
-                console.log('login failed');
+                console.log('wrong password');
                 res.status(401).json({
                     status: 401,
                     message: 'login failed'
                 })
             }
         } else {
-            console.log('login failed');
+            console.log('user not found');
             res.status(401).json({
                 status: 401,
                 message: 'login failed'

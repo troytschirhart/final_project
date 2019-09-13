@@ -54,8 +54,8 @@ app.get('/app', (req, res) => {
 const userController = require('./controllers/users.js');
 app.use('/users', userController);
 
-// const sessionsController = require('./controllers/sessions.js');
-// app.use('/sessions', sessionsController);
+const sessionsController = require('./controllers/sessions.js');
+app.use('/sessions', sessionsController);
 
 // ===================================== Listeners
 app.listen(PORT, () => {

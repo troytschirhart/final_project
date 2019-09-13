@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en" dir="ltr" ng-app="MoneyApp">
     <head>
         <meta charset="utf-8">
         <title>Total Value</title>
@@ -10,6 +10,35 @@
     <header>
     </header>
     <body>
-            <h1>Here's the app</h1>
+        <div ng-controller="AuthController as actrl">
+            <h1>AuthController Stuff</h1>
+            <h2>Create User</h2>
+            <form ng-submit="actrl.createUser()">
+                <input type="text" ng-model="actrl.newUsername" placeholder="username" /> <br/>
+                <input type="password" ng-model="actrl.newPassword" placeholder="password" /> <br/>
+                <input type="submit" value="Create User" />
+            </form>
+            <h2>Login</h2>
+            <form ng-submit="actrl.logIn()">
+                <input type="text" ng-model="actrl.username" placeholder="username" /> <br/>
+                <input type="password" ng-model="actrl.password" placeholder="password" /> <br/>
+                <input type="submit" value="Log In" />
+            </form>
+            <form ng-submit="actrl.logOut()">
+                <input type="submit" value="Logout" />
+            </form>
+        </div>
+        <div ng-controller="MoneyController as mctrl">
+            <h1>MoneyController Stuff</h1>
+            <form ng-submit="mctrl.printHi()">
+                <input type="text" ng-model="mctrl.stock" placeholder="stock" /> <br/>
+                <input type="submit" value="PrintHi" />
+            </form>
+            <h2>Login</h2>
+            <form ng-submit="mctrl.printBye()">
+                <input type="submit" value="Log In" />
+            </form>
+        </div>
+
     </body>
 </html>
