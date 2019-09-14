@@ -51,6 +51,9 @@ app.get('/app', (req, res) => {
 
 // ===================================== Controllers
 
+const stockController = require('./controllers/stocks.js');
+app.use('/stocks', stockController);
+
 const userController = require('./controllers/users.js');
 app.use('/users', userController);
 
