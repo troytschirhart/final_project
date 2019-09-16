@@ -1,5 +1,33 @@
 
 
-body {
-    background-color: lightblue;
+body, html {
+    height: 100%;
+    background-image: url('../images/angled_dollar.jpeg');
+    background-position: left;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.thing {
+    border: 1px solid red;
+}
+
+.column {
+    /* border: 1px solid gold; */
+}
+
+.total-value {
+    text-shadow: 1px 1px black;
+}
+
+
+.home-text {
+    padding-top: 50px;
+    text-shadow: 1px 1px black;
+
+}
+
+.home-column {
+    border: 1px solid black;
 }

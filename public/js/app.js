@@ -13,7 +13,8 @@ app.controller('AuthController', ['$http', function ($http) {
     // Define 'includePath' to enable the use of partials
     this.includePath = 'partials/home.html'
     this.changeInclude = (path) => {
-        this.includePath = 'partials/' + path + 'html'
+        this.includePath = 'partials/' + path + '.html'
+        console.log(this.includePath);
     }
 
     // Declare 'controller' variable to be at the level of the app.controller
