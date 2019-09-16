@@ -1,0 +1,40 @@
+
+<div class="columns register-text" >
+
+    <div class="column">
+    </div>
+
+    <div class="column is-half has-background-white home-column">
+
+        <h1 class="level-item is-size-1 has-text-weight-bold has-text-success home-column">Add Item</h1>
+
+        <form ng-submit="ctrl.createStock(); ctrl.getUserStocks(); ctrl.changeInclude('spreadsheet')">
+            <div class="field">
+              <label class="label">Stock Symbol</label>
+              <div class="control">
+                <input class="input" type="text" placeholder="Stock Symbol" ng-model="ctrl.newSymbol">
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Shares Owned</label>
+              <div class="control">
+                <input class="input" type="number" step=".0001" placeholder="Shares Owned" ng-model="ctrl.newShares">
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="control">
+                <button class="button is-link">Add Item</button>
+              </div>
+            </div>
+
+        </form>
+
+    </div>
+
+    <div class="column">
+    </div>
+
+
+</div>

@@ -13,17 +13,31 @@
     <header>
     </header>
     <body>
-        <div class="bg-image" ng-controller="AuthController as actrl">
 
-        <nav ng-include="'partials/navigation.html'">
-        </nav>
+        <div ng-controller="MoneyController as ctrl">
 
-        <div>
-            <div ng-include="actrl.includePath">
-                <h1>Stuff goes here</h1>
+            <div ng-if="!ctrl.loggedInID">
+
+                <nav ng-include="'partials/navigation1.html'">
+                </nav>
+
+                <div ng-include="ctrl.includePath">
+                </div>
+
             </div>
-        </div>
+
+            <div ng-if="ctrl.loggedInID">
+
+                <nav ng-include="'partials/navigation2.html'">
+                </nav>
+
+                <div ng-include="ctrl.includePath">
+                    <h1>look at me</h1>
+                </div>
+            </div>
+
 
         </div>
+
     </body>
 </html>

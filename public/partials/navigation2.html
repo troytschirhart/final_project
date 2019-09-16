@@ -1,0 +1,41 @@
+<div class="hero is-success is-small">
+
+    <div class="hero-body has-text-centered total-value">
+
+        <div class="columns">
+
+            <div class="column has-text-centered">
+            </div>
+
+            <div class="column has-text-centered">
+                <h1 class="is-size-1 has-text-weight-bold has-text-white">Total Value</h1>
+            </div>
+
+            <div class="column has-text-centered is-vertical-centered">
+                <h3 class="is-size-3 has-text-weight-medium has-text-white ">Welcome, {{ctrl.loggedInUsername}}</h3>
+            </div>
+
+        </div>
+
+
+        <div class="columns">
+
+            <div class="column has-text-centered">
+                <a class="button is-rounded is-link" ng-click="ctrl.getUserStocks(); ctrl.changeInclude('spreadsheet')">Spreadsheet</a>
+            </div>
+
+            <div class="column has-text-centered">
+                <a class="button is-rounded is-link" ng-click="ctrl.changeInclude('addForm')">Add Item</a>
+            </div>
+
+            <div class="column has-text-centered">
+                <a class="button is-rounded is-link" ng-click="ctrl.logOut(); ctrl.changeInclude('home')">Logout</a>
+            </div>
+
+            <hr/>
+
+        </div>
+
+    </div>
+
+</div>

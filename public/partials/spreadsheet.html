@@ -1,0 +1,45 @@
+
+<div class="columns register-text" >
+
+    <div class="column">
+    </div>
+
+    <div class="column is-half has-background-white home-column is-centered">
+
+        <table class="table is-striped">
+            <tr>
+                <th> </th>
+                <th> </th>
+                <th>Symbol</th>
+                <th>Shares</th>
+                <th>Price</th>
+                <th>Value</th>
+            </tr>
+            <tr ng-repeat="stock in ctrl.stocks">
+                <td><a ng-click="ctrl.changeInclude('editForm');
+                    ctrl.indexOfEditFormToShow = $index;
+                    ctrl.oneStock = stock">Edit</a>
+                </td>
+                <td><a ng-click="ctrl.deleteStock(stock)">Delete</a></td>
+                <td>{{stock.symbol}}</td>
+                <td>{{stock.shares}}</td>
+                <td>${{stock.price}}</td>
+                <td>${{stock.value}}</td>
+            </tr>
+            <tr>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+                <td>Total:</td>
+                <td>${{ctrl.sum}}</td>
+            </tr>
+        </table>
+
+    </div>
+
+    <div class="column">
+    </div>
+
+
+</div>

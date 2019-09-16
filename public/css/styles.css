@@ -2,11 +2,12 @@
 
 body, html {
     height: 100%;
-    background-image: url('../images/angled_dollar.jpeg');
+    /* background-image: url('../images/angled_dollar.jpeg'); */
     background-position: left;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
+    background-color: lightblue;
 }
 
 .thing {
@@ -25,9 +26,19 @@ body, html {
 .home-text {
     padding-top: 50px;
     text-shadow: 1px 1px black;
-
 }
 
 .home-column {
     border: 1px solid black;
+    text-shadow: none;
+}
+
+.register-text {
+    padding-top: 50px;
+}
+
+.is-vertical-centered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
