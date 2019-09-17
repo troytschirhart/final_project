@@ -1,0 +1,46 @@
+
+
+
+<div ng-controller="AuthController as ctrl" class="hero-body">
+    <h1>AuthController Stuff</h1>
+    <h2>Create User</h2>
+    <form ng-submit="ctrl.createUser()">
+        <input type="text" ng-model="ctrl.newUsername" placeholder="username" /> <br/>
+        <input type="password" ng-model="ctrl.newPassword" placeholder="password" /> <br/>
+        <input type="submit" value="Create User" />
+    </form>
+    <h2>Login</h2>
+    <form ng-submit="ctrl.logIn()">
+        <input type="text" ng-model="ctrl.username" placeholder="username" /> <br/>
+        <input type="password" ng-model="ctrl.password" placeholder="password" /> <br/>
+        <input type="submit" value="Log In" class="button is-active"/>
+    </form>
+    <form ng-submit="ctrl.logOut()">
+        <input type="submit" value="Logout" />
+    </form>
+</div>
+<div ng-controller="MoneyController as ctrl">
+    <h1>MoneyController Stuff</h1>
+    <h2>Add a stock</h2>
+    <form ng-submit="ctrl.createStock()">
+        <input type="text" ng-model="ctrl.newSymbol" placeholder="stock symbol" /> <br/>
+        <input type="number" step=".0001" ng-model="ctrl.newShares" placeholder="shares of stock" /> <br/>
+        <input type="submit" value="Add stock" />
+    </form>
+
+    <h2>Edit a stock</h2>
+    <form ng-submit="ctrl.editStock(stock)">
+        <input type="text" ng-model="ctrl.symbol" placeholder="stock symbol" /> <br/>
+        <input type="number" step=".0001" ng-model="ctrl.shares" placeholder="shares of stock" /> <br/>
+        <input type="submit" value="Edit stock" />
+    </form>
+
+    <form ng-submit="ctrl.printHi()">
+        <input type="text" ng-model="ctrl.stock" placeholder="stock" /> <br/>
+        <input type="submit" value="Print stock price" />
+    </form>
+    <h2>Print Stocks</h2>
+    <form ng-submit="ctrl.getUserStocks()">
+        <input type="submit" value="Print Stocks" />
+    </form>
+</div>
