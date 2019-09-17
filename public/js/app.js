@@ -180,7 +180,7 @@ app.controller('MoneyController', ['$http', function ($http) {
                 controller.sum = 0;
                 for (let i = 0; i < response.data.length; i++) {
                     response.data[i].value = response.data[i].shares * response.data[i].price
-                    controller.sum = controller.sum + response.data[i].value + 3.1415
+                    controller.sum = controller.sum + response.data[i].value
                 }
                 controller.sum = Math.round(controller.sum * 100) / 100
 
@@ -188,7 +188,7 @@ app.controller('MoneyController', ['$http', function ($http) {
                 for (let i = 0; i < controller.stocks.length; i++) {
                     console.log(controller.stocks[i]._id + '     ' +
                     controller.stocks[i].symbol + '     ' +
-                    controller.stocks[i].shares + '     ' + sum
+                    controller.stocks[i].shares + '     ' + controller.sum
                     );
                 }
             }, function(error) {
@@ -197,9 +197,14 @@ app.controller('MoneyController', ['$http', function ($http) {
         )
     }
 
-    // ================================= Update stocks from user's positionList
+    // ================================= Edit stocks from user's positionList
     this.editStock = function(stock) {
-        console.log('stock: ' + stock);
+        console.log('Info below from submitting an edited stock');
+        console.log('stock._id: ' + stock._id);
+        console.log('stock.symbol: ' + stock.symbol);
+        console.log('stock.shares: ' + stock.shares);
+        console.log('stock.price: ' + stock.price);
+        console.log('stock.value: ' + stock.value);
         $http({
             method: 'PUT',
             url: '/stocks/' + stock._id,
@@ -208,6 +213,34 @@ app.controller('MoneyController', ['$http', function ($http) {
                 shares: this.shares,
                 price: this.price,
                 value: this.value
+            }
+        }).then(
+            function (response) {
+                console.log('updated stock received from controller: ', response);
+                controller.replaceStock(response) // delete the old, add the new
+            }, function(error) {
+                console.log(error);
+            }
+        )
+    }
+
+
+    // ================================= UPDATE stocks with price data
+    this.updateStock = function(stock) {
+        console.log('Info below from pulling a stocks price');
+        console.log('stock._id: ' + stock._id);
+        console.log('stock.symbol: ' + stock.symbol);
+        console.log('stock.shares: ' + stock.shares);
+        console.log('stock.price: ' + stock.price);
+        console.log('stock.value: ' + stock.value);
+        $http({
+            method: 'PUT',
+            url: '/stocks/' + stock._id,
+            data: {
+                symbol: stock.symbol,
+                shares: stock.shares,
+                price: stock.price,
+                value: stock.value
             }
         }).then(
             function (response) {
@@ -260,27 +293,82 @@ app.controller('MoneyController', ['$http', function ($http) {
     }
 
 
-    // ================================= pull a stock price
-    this.pullPrice = function(stock){
-        console.log('hi');
-        console.log(stock);
-        // stock = this.stock;
-        console.log(stock);
-        stockURL = 'https://api.iextrading.com/1.0/tops/last?symbols=' + stock;
-        console.log(stockURL);
+
+// =============================================================================
+//  PULLING PRICES AND CALCULATING VALUES HAPPENS BELOW
+// =============================================================================
+
+    // ================================= GRAB A PRICE FOR EACH STOCK
+    this.getStockPrices = function(){
+        console.log('get stock prices - controller.loggedInID: ', controller.loggedInID);
         $http({
             method: 'GET',
-            url: stockURL
+            url: '/users/' + controller.loggedInID
         }).then(
             function(response){
-                console.log(response);
-                console.log('$' + response.data[0].price);
-                return (response.data[0].price)
-            },
-            function(error){
+                controller.stocks = response.data
+                controller.pullPrices()
+                // for (let i = 0; i < response.data.length; i++) {
+                //     response.data[i].value = response.data[i].shares * response.data[i].price
+                //     controller.sum = controller.sum + response.data[i].value + 3.1415
+                // }
+                // controller.sum = Math.round(controller.sum * 100) / 100
+                //
+                // console.log('stocks to be displayed on the page: ');
+                // for (let i = 0; i < controller.stocks.length; i++) {
+                //     console.log(controller.stocks[i]._id + '     ' +
+                //     controller.stocks[i].symbol + '     ' +
+                //     controller.stocks[i].shares + '     ' + sum
+                //     );
+                // }
+            }, function(error) {
                 console.log(error);
             }
         )
     }
+
+
+    // ================================= PULL A PRICE FROM THE API
+    this.pullPrices = function(){
+        console.log('get stock prices - controller.loggedInID: ', controller.loggedInID);
+        console.log(controller.stocks[0]._id + '     ' +
+        controller.stocks[0].symbol + '     ' +
+        controller.stocks[0].shares + '     ' + controller.sum
+        );
+
+        for (let i = 0; i < controller.stocks.length; i++) {
+            stockURL = 'https://api.iextrading.com/1.0/tops/last?symbols=' +
+                controller.stocks[i].symbol;
+            console.log(stockURL);
+            $http({
+                method: 'GET',
+                url: stockURL
+            }).then(
+                function(response){
+                    console.log('$' + response.data[0].price);
+                    controller.stocks[i].symbol = controller.stocks[i].symbol
+                    controller.stocks[i].shares = controller.stocks[i].shares
+                    controller.stocks[i].price = response.data[0].price
+                    controller.stocks[i].value =
+                        controller.stocks[i].price * controller.stocks[i].shares
+                    controller.stocks[i].value =
+                        Math.round(controller.stocks[i].value * 100) / 100
+
+                    console.log(controller.stocks[i].price + '    ' + controller.stocks[i].value);
+                controller.updateStock(controller.stocks[i])
+
+                },
+                function(error){
+                    console.log(error);
+                }
+            )
+
+        }
+        controller.getUserStocks()
+
+    }
+
+
+
 
 }]) // End of the money controller
