@@ -62,11 +62,11 @@ router.put('/:user/:id', (req, res) => {
             // Find the index of the stock in the user's positionList
             console.log('req.params: ', req.params);
             let idString = req.params.id.toString();
-            console.log('idString: '. idString);
+            console.log('idString: ', idString);
 
             let checkID = [];
             for (let i = 0; i < foundUser.positionList.length; i++) {
-                checkID[i] = foundUser.positionList[i]._id.toString
+                checkID[i] = foundUser.positionList[i]._id.toString()
             }
             console.log('checkID: ', checkID);
 
@@ -79,7 +79,7 @@ router.put('/:user/:id', (req, res) => {
 
             if (index !== -1) {
                 // remove the original position and add the updated position
-                foundUser.positionList.splice(index, 1, req.body.position)
+                foundUser.positionList.splice(index, 1, req.body.stock)
                 foundUser.save((err, savedUser) => {
                     // save the updated foundUser
                 })
@@ -88,7 +88,7 @@ router.put('/:user/:id', (req, res) => {
             } else {
                 res.status(400).json({
                     status: 400,
-                    message: 'unsuccessful attempt to updated selected position'
+                    message: 'unsuccessful attempt to update selected position'
                 })
             }
 
