@@ -24,7 +24,7 @@
                 <td>{{stock.symbol}}</td>
                 <td>{{stock.shares}}</td>
                 <td>${{stock.price}}</td>
-                <td>${{stock.value}}</td>
+                <td>${{stock.value | number : .01}}</td>
             </tr>
             <tr>
                 <td> </td>
@@ -32,7 +32,7 @@
                 <td> </td>
                 <td> </td>
                 <td>Total:</td>
-                <td>${{ctrl.sum}}</td>
+                <td>${{ctrl.sum | number : .01}}</td>
             </tr>
         </table>
 
