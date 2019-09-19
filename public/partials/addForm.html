@@ -51,7 +51,7 @@
 
         <h1 class="level-item is-size-1 has-text-weight-bold has-text-success home-column">Add Item</h1>
 
-        <form ng-submit="ctrl.createStock(); ctrl.getUserStocks(); ctrl.changeInclude('spreadsheet')">
+        <form ng-submit="ctrl.createStock(); ctrl.changeInclude('spreadsheet')">
 
             <div class="field">
               <label class="label">Stock Symbol</label>
@@ -75,9 +75,9 @@
             </div>
 
             <div class="field">
-              <label class="label">Amount Paid</label>
+              <label class="label">Total Paid</label>
               <div class="control">
-                <input class="input" type="number" step=".01" placeholder="Amount Paid" ng-model="ctrl.newCost">
+                <input class="input" type="number" step=".01" placeholder="Total Paid" ng-model="ctrl.newCost">
               </div>
             </div>
 

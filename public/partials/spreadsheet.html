@@ -1,45 +1,51 @@
 
-<div class="columns register-text" >
-
-    <div class="column">
-    </div>
+<div class="columns register-text is-centered" >
 
     <div class="column is-narrow has-background-white home-column is-centered">
 
-        <table class="table is-striped table-padding is-centered">
+        <table class="table is-striped is-bordered table-padding">
+
             <tr>
-                <th> </th>
-                <th> </th>
-                <th>Symbol</th>
-                <th>Shares</th>
-                <th>Price</th>
-                <th>Value</th>
+                <th class="has-text-centered">Edit</th>
+                <th class="has-text-centered">Delete</th>
+                <th class="has-text-centered">Symbol</th>
+                <th class="hideMe has-text-centered">Name</th>
+                <th class="has-text-centered">Shares</th>
+                <th class="hideMe has-text-centered">Total Paid</th>
+                <th class="hideMe priceWidth has-text-centered">Current Share Price</th>
+                <th class="has-text-centered">Value</th>
+                <th class="has-text-centered">Profit</th>
             </tr>
-            <tr ng-repeat="stock in ctrl.stocks">
-                <td><a ng-click="ctrl.changeInclude('editForm');
-                    ctrl.indexOfEditFormToShow = $index;
+
+            <tr ng-repeat="stock in ctrl.stocks" class="has-text-right">
+                <td class="has-text-centered"><a ng-click="ctrl.changeInclude('editForm');
                     ctrl.oneStock = stock">Edit</a>
                 </td>
-                <td><a ng-click="ctrl.deleteStock(stock)">Delete</a></td>
-                <td>{{stock.symbol}}</td>
-                <td>{{stock.shares}}</td>
-                <td>${{stock.price}}</td>
-                <td>${{stock.value | number : .01}}</td>
+                <td class="has-text-centered"><a ng-click="ctrl.deleteStock(stock)">Delete</a></td>
+                <td class="has-text-centered">{{stock.symbol}}</td>
+                <td class="hideMe has-text-centered">{{stock.name}}</td>
+                <td class="has-text-centered">{{stock.shares}}</td>
+                <td class="hideMe has-text-centered">${{stock.cost}}</td>
+                <td class="hideMe has-text-centered">${{stock.price}}</td>
+                <td class="has-text-centered">${{stock.value}}</td>
+                <td ng-if="stock.profit >= 0" class="has-text-success has-text-centered">${{stock.profit}}</td>
+                <td ng-if="stock.profit < 0" class="has-text-danger has-text-centered">${{stock.profit}}</td>
+                <!-- <td>${{stock.profit | number : 0.01}}</td>                 -->
             </tr>
             <tr>
                 <td> </td>
                 <td> </td>
                 <td> </td>
-                <td> </td>
-                <td>Total:</td>
-                <td>${{ctrl.sum | number : .01}}</td>
+                <td class="hideMe"> </td>
+                <td class="hideMe"> </td>
+                <td class="hideMe"> </td>
+                <td class="has-text-right">Totals:</td>
+                <td>${{ctrl.sum }}</td>
+                <td ng-if="ctrl.net >= 0" class="has-text-success has-text-centered">${{ctrl.net }}</td>
+                <td ng-if="ctrl.net < 0" class="has-text-danger has-text-centered">${{ctrl.net }}</td>
             </tr>
         </table>
 
     </div>
-
-    <div class="column">
-    </div>
-
 
 </div>
