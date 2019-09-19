@@ -273,11 +273,11 @@ app.controller('MoneyController', ['$http', function ($http) {
                 controller.name = null;
                 controller.shares = null;
                 controller.cost = null;
+                setTimeout(function() {controller.getStockPrices()}, 500)
                 setTimeout(function() {controller.getStockPrices()}, 1000)
+                setTimeout(function() {controller.getStockPrices()}, 1500)
                 setTimeout(function() {controller.getStockPrices()}, 2000)
                 setTimeout(function() {controller.getStockPrices()}, 3000)
-                setTimeout(function() {controller.getStockPrices()}, 4000)
-                setTimeout(function() {controller.getStockPrices()}, 5000)
                 // controller.getStockPrices()
                 // controller.getUserStocks()
             }, function(error){
@@ -399,14 +399,14 @@ app.controller('MoneyController', ['$http', function ($http) {
                     controller.stocks[i].profit
                     );
 
-                controller.updateStock(controller.stocks[i])
+                    controller.updateStock(controller.stocks[i])
 
                 },
                 function(error){
                     console.log(error);
                 }
             )
-
+            setTimeout(function() {console.log('delay: ' + i);}, 1000)
         }
         // controller.getUserStocks()
 
