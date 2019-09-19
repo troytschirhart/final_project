@@ -14,7 +14,7 @@ app.controller('MoneyController', ['$http', function ($http) {
     this.includePath = 'partials/home.html'
     this.changeInclude = (path) => {
         this.includePath = 'partials/' + path + '.html'
-        console.log(this.includePath);
+        // console.log(this.includePath);
     }
 
     // Declare 'controller' variable to be at the level of the app.controller
@@ -85,8 +85,9 @@ app.controller('MoneyController', ['$http', function ($http) {
                 controller.loggedInUsername = response.data.username
                 controller.loggedInID = response.data._id
                 console.log('login id at login: ' + controller.loggedInID);
+                controller.getStockPrices()
                 controller.changeInclude('spreadsheet');
-                controller.getUserStocks()
+
             },
             function(error){
                 console.log(error);
@@ -104,7 +105,7 @@ app.controller('MoneyController', ['$http', function ($http) {
                 console.log(response);
                 controller.loggedInUsername = null;
                 controller.loggedInID = null;
-                controller.getUserStocks()
+                // controller.getUserStocks()
             },
             function(error){
                 console.log(error);
@@ -131,13 +132,17 @@ app.controller('MoneyController', ['$http', function ($http) {
             url: '/stocks',
             data: {
                 symbol: this.newSymbol,
+                name: this.newName,
                 shares: this.newShares,
+                cost: this.newCost,
                 price: 0,
-                value: 0
+                value: 0,
+                profit: 0
             }
         }).then(
             function(response) {
                 controller.pushStock(response); // push into user's positionList
+                // controller.getStockPrices()
             }, function(error) {
                 console.log(error);
             }
@@ -158,11 +163,23 @@ app.controller('MoneyController', ['$http', function ($http) {
             function(response){
                 console.log('push new stock response: ' + response);
                 controller.newSymbol = null;
+                controller.newName = null;
                 controller.newShares = null;
-                controller.getUserStocks()
+                controller.newCost = null;
+                setTimeout(function() {controller.getStockPrices()}, 1000)
+                setTimeout(function() {controller.getStockPrices()}, 2000)
+                setTimeout(function() {controller.getStockPrices()}, 3000)
+                setTimeout(function() {controller.getStockPrices()}, 4000)
+                setTimeout(function() {controller.getStockPrices()}, 5000)
+                // controller.getUserStocks()
             }, function(error){
                 console.log(error);
                 controller.getUserStocks()
+            }
+        ).then(
+            function(){
+                // controller.getUserStocks();
+                console.log('get stocks');
             }
         )
     }
@@ -178,19 +195,26 @@ app.controller('MoneyController', ['$http', function ($http) {
                 controller.stocks = response.data
 
                 controller.sum = 0;
+                controller.net = 0;
                 for (let i = 0; i < response.data.length; i++) {
-                    response.data[i].value = response.data[i].shares * response.data[i].price
-                    controller.sum = controller.sum + response.data[i].value
-                }
-                controller.sum = Math.round(controller.sum * 100) / 100
+                    // controller.stocks[i].value = controller.stocks[i].shares * controller.stocks[i].price
+                    // controller.stocks[i].value = Math.trunc(controller.stocks[i].value * 100) / 100
+                    // controller.stocks[i].profit = Math.trunc(controller.stocks[i].profit * 100) / 100
 
-                console.log('stocks to be displayed on the page: ');
-                for (let i = 0; i < controller.stocks.length; i++) {
-                    console.log(controller.stocks[i]._id + '     ' +
-                    controller.stocks[i].symbol + '     ' +
-                    controller.stocks[i].shares + '     ' + controller.sum
-                    );
+                    controller.sum = controller.sum + response.data[i].value
+                    controller.net = controller.net + response.data[i].profit
                 }
+                controller.sum = Math.trunc(controller.sum * 100) / 100
+                controller.net = Math.trunc(controller.net * 100) / 100
+                console.log(controller.sum + '   ' + controller.net);
+
+                // console.log('stocks to be displayed on the page: ');
+                // for (let i = 0; i < controller.stocks.length; i++) {
+                //     console.log(controller.stocks[i]._id + '     ' +
+                //     controller.stocks[i].symbol + '     ' +
+                //     controller.stocks[i].shares
+                //     );
+                // }
             }, function(error) {
                 console.log(error);
             }
@@ -210,9 +234,12 @@ app.controller('MoneyController', ['$http', function ($http) {
             url: '/stocks/' + stock._id,
             data: {
                 symbol: this.symbol,
+                name: this.name,
                 shares: this.shares,
+                cost: this.cost,
                 price: this.price,
-                value: this.value
+                value: this.value,
+                profit: this.profit
             }
         }).then(
             function (response) {
@@ -225,37 +252,13 @@ app.controller('MoneyController', ['$http', function ($http) {
     }
 
 
-    // ================================= UPDATE stocks with price data
-    this.updateStock = function(stock) {
-        console.log('Info below from pulling a stocks price');
-        console.log('stock._id: ' + stock._id);
-        console.log('stock.symbol: ' + stock.symbol);
-        console.log('stock.shares: ' + stock.shares);
-        console.log('stock.price: ' + stock.price);
-        console.log('stock.value: ' + stock.value);
-        $http({
-            method: 'PUT',
-            url: '/stocks/' + stock._id,
-            data: {
-                symbol: stock.symbol,
-                shares: stock.shares,
-                price: stock.price,
-                value: stock.value
-            }
-        }).then(
-            function (response) {
-                console.log('updated stock received from controller: ', response);
-                controller.replaceStock(response) // delete the old, add the new
-            }, function(error) {
-                console.log(error);
-            }
-        )
-    }
 
     // ================================= replace updated stock on positionList
     this.replaceStock = function(updatedStock){
         console.log('updatedStock to be sent in as a replacement: ' +
-            updatedStock.data._id);
+            updatedStock.data._id + '     ' + updatedStock.data.symbol);
+        console.log(updatedStock.data.price + '     ' + updatedStock.data.value
+                    + '     ' + updatedStock.data.profit);
         $http({
             method: 'PUT',
             url: '/users/' + controller.loggedInID + '/' + updatedStock.data._id,
@@ -264,11 +267,19 @@ app.controller('MoneyController', ['$http', function ($http) {
             }
         }).then(
             function(response){
-                console.log('response received from replacement: ', response)
+                console.log('response received from replacement for ' + updatedStock.data.symbol);
+                console.log(response);
                 controller.symbol = null;
+                controller.name = null;
                 controller.shares = null;
-                controller.indexOfEditFormToShow = null;
-                controller.getUserStocks()
+                controller.cost = null;
+                setTimeout(function() {controller.getStockPrices()}, 1000)
+                setTimeout(function() {controller.getStockPrices()}, 2000)
+                setTimeout(function() {controller.getStockPrices()}, 3000)
+                setTimeout(function() {controller.getStockPrices()}, 4000)
+                setTimeout(function() {controller.getStockPrices()}, 5000)
+                // controller.getStockPrices()
+                // controller.getUserStocks()
             }, function(error){
                 console.log(error);
                 controller.getUserStocks()
@@ -284,10 +295,10 @@ app.controller('MoneyController', ['$http', function ($http) {
         }).then(
             function(response){
                 console.log(response);
-                controller.getUserStocks()
+                controller.getStockPrices()
             }, function(error){
                 console.log(error);
-                controller.getUserStocks()
+                controller.getStockPrices()
             }
         )
     }
@@ -300,7 +311,7 @@ app.controller('MoneyController', ['$http', function ($http) {
 
     // ================================= GRAB A PRICE FOR EACH STOCK
     this.getStockPrices = function(){
-        console.log('get stock prices - controller.loggedInID: ', controller.loggedInID);
+        // console.log('get stock prices - controller.loggedInID: ', controller.loggedInID);
         $http({
             method: 'GET',
             url: '/users/' + controller.loggedInID
@@ -321,6 +332,18 @@ app.controller('MoneyController', ['$http', function ($http) {
                 //     controller.stocks[i].shares + '     ' + sum
                 //     );
                 // }
+
+                controller.sum = 0;
+                controller.net = 0;
+                for (let i = 0; i < response.data.length; i++) {
+                    controller.sum = controller.sum + response.data[i].value
+                    controller.net = controller.net + response.data[i].profit
+                }
+                controller.sum = Math.trunc(controller.sum * 100) / 100
+                controller.net = Math.trunc(controller.net * 100) / 100
+                console.log(controller.sum + '   ' + controller.net);
+
+
             }, function(error) {
                 console.log(error);
             }
@@ -330,11 +353,13 @@ app.controller('MoneyController', ['$http', function ($http) {
 
     // ================================= PULL A PRICE FROM THE API
     this.pullPrices = function(){
-        console.log('get stock prices - controller.loggedInID: ', controller.loggedInID);
-        console.log(controller.stocks[0]._id + '     ' +
-        controller.stocks[0].symbol + '     ' +
-        controller.stocks[0].shares + '     ' + controller.sum
-        );
+        // console.log('get stock prices - controller.loggedInID: ', controller.loggedInID);
+        // console.log('pull price for: ' + controller.stocks[0].symbol);
+        // console.log(controller.stocks[0]._id + '     ' +
+        // controller.stocks[0].price + '     ' +
+        // controller.stocks[0].value + '     ' +
+        // controller.stocks[0].profit
+        // );
 
         for (let i = 0; i < controller.stocks.length; i++) {
             stockURL = 'https://api.iextrading.com/1.0/tops/last?symbols=' +
@@ -345,16 +370,35 @@ app.controller('MoneyController', ['$http', function ($http) {
                 url: stockURL
             }).then(
                 function(response){
-                    console.log('$' + response.data[0].price);
-                    controller.stocks[i].symbol = controller.stocks[i].symbol
-                    controller.stocks[i].shares = controller.stocks[i].shares
+                    // console.log('$' + response.data[0].price);
+                    // controller.stocks[i].symbol = controller.stocks[i].symbol
+                    // controller.stocks[i].name = controller.stocks[i].name
+                    // controller.stocks[i].shares = controller.stocks[i].shares
+                    // controller.stocks[i].cost = controller.stocks[i].cost
                     controller.stocks[i].price = response.data[0].price
+
                     controller.stocks[i].value =
                         controller.stocks[i].price * controller.stocks[i].shares
                     controller.stocks[i].value =
-                        Math.round(controller.stocks[i].value * 100) / 100
+                        Math.trunc(controller.stocks[i].value * 100) / 100
 
-                    console.log(controller.stocks[i].price + '    ' + controller.stocks[i].value);
+                    controller.stocks[i].profit =
+                        controller.stocks[i].value - controller.stocks[i].cost
+                    controller.stocks[i].profit =
+                        Math.trunc(controller.stocks[i].profit * 100) / 100
+
+                    // console.log(controller.stocks[i].value);
+                    // console.log(controller.stocks[i].profit);
+
+                    // console.log(controller.stocks[i].price + '    ' + controller.stocks[i].value);
+
+                    console.log('to be sent to updateStock for: ' + controller.stocks[i].symbol);
+                    console.log(controller.stocks[i]._id + '     ' +
+                    controller.stocks[i].price + '     ' +
+                    controller.stocks[i].value + '     ' +
+                    controller.stocks[i].profit
+                    );
+
                 controller.updateStock(controller.stocks[i])
 
                 },
@@ -364,10 +408,138 @@ app.controller('MoneyController', ['$http', function ($http) {
             )
 
         }
-        controller.getUserStocks()
+        // controller.getUserStocks()
 
     }
 
+
+
+    // ================================= UPDATE stocks with price data
+    this.updateStock = function(stock) {
+        console.log('Info below from pulling a stocks price');
+        console.log('stock._id: ' + stock._id);
+        console.log('stock.symbol: ' + stock.symbol);
+        console.log('stock.shares: ' + stock.shares);
+        console.log('stock.price: ' + stock.price);
+        console.log('stock.value: ' + stock.value);
+        $http({
+            method: 'PUT',
+            url: '/stocks/' + stock._id,
+            data: {
+                symbol: stock.symbol,
+                name: stock.name,
+                shares: stock.shares,
+                cost: stock.cost,
+                price: stock.price,
+                value: stock.value,
+                profit: stock.profit
+            }
+        }).then(
+            function (response) {
+                console.log('updated stock received from controller: ', response);
+                controller.switchStock(response) // delete the old, add the new
+            }, function(error) {
+                console.log(error);
+            }
+        )
+    }
+
+
+    // ================================= replace updated stock on positionList
+    this.switchStock = function(updatedStock){
+        console.log('switchStock to be sent in as a replacement: ' +
+            updatedStock.data._id + '     ' + updatedStock.data.symbol);
+        console.log(updatedStock.data.price + '     ' + updatedStock.data.value
+                    + '     ' + updatedStock.data.profit);
+        $http({
+            method: 'PUT',
+            url: '/users/' + controller.loggedInID + '/' + updatedStock.data._id,
+            data: {
+                stock: updatedStock.data
+            }
+        }).then(
+            function(response){
+                console.log('response received from replacement for ' + updatedStock.data.symbol);
+                console.log(response);
+                controller.symbol = null;
+                controller.name = null;
+                controller.shares = null;
+                controller.cost = null;
+                // setTimeout(function() {controller.getUserStocks()}, 100)
+                // setTimeout(function() {controller.getUserStocks()}, 200)
+                // setTimeout(function() {controller.getUserStocks()}, 300)
+                // setTimeout(function() {controller.getUserStocks()}, 400)
+                // setTimeout(function() {controller.getUserStocks()}, 500)
+                // setTimeout(function() {controller.getUserStocks()}, 600)
+                // setTimeout(function() {controller.getUserStocks()}, 700)
+                // setTimeout(function() {controller.getUserStocks()}, 800)
+                // setTimeout(function() {controller.getUserStocks()}, 900)
+                // setTimeout(function() {controller.getUserStocks()}, 1000)
+                // $timeout(function() {controller.getUserStocks()}, 3000)
+                controller.getUserStocks()
+            }, function(error){
+                console.log(error);
+                controller.getUserStocks()
+            }
+        )
+    }
+
+    // ================================= Calculate totals
+    // this.calculateTotals = function(){
+    //     console.log('get stocks - controller.loggedInID: ', controller.loggedInID);
+    //     $http({
+    //         method: 'GET',
+    //         url: '/users/' + controller.loggedInID
+    //     }).then(
+    //         function(response){
+    //             controller.stocks = response.data
+    //
+    //             controller.sum = 0;
+    //             controller.net = 0;
+    //             for (let i = 0; i < response.data.length; i++) {
+    //                 // controller.stocks[i].value = controller.stocks[i].shares * controller.stocks[i].price
+    //                 // controller.stocks[i].value = Math.trunc(controller.stocks[i].value * 100) / 100
+    //                 // controller.stocks[i].profit = Math.trunc(controller.stocks[i].profit * 100) / 100
+    //
+    //                 controller.sum = controller.sum + response.data[i].value
+    //                 controller.net = controller.net + response.data[i].profit
+    //             }
+    //             controller.sum = Math.trunc(controller.sum * 100) / 100
+    //             controller.net = Math.trunc(controller.net * 100) / 100
+    //             console.log(controller.sum + '   ' + controller.net);
+    //
+    //             // console.log('stocks to be displayed on the page: ');
+    //             // for (let i = 0; i < controller.stocks.length; i++) {
+    //             //     console.log(controller.stocks[i]._id + '     ' +
+    //             //     controller.stocks[i].symbol + '     ' +
+    //             //     controller.stocks[i].shares
+    //             //     );
+    //             // }
+    //         }, function(error) {
+    //             console.log(error);
+    //         }
+    //     )
+    // }
+
+
+    // Need a form for term entry and a submit button (maybe a clear button?)
+    // Need to be able to display the results
+    this.symbolLookUp = function(){
+        console.log('searchTerm: ' + this.searchTerm);
+        searchURL = 'https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=' + this.searchTerm + '&apikey=IQMFD5277KOIHK9H'
+        console.log('searchURL: ' + searchURL);
+        $http({
+            method: 'GET',
+            url: searchURL
+        }).then(
+            function(response){
+                controller.results = response.data.bestMatches
+            },
+            function(error){
+                console.log(error);
+            }
+        )
+    }
 
 
 

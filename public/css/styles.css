@@ -1,4 +1,7 @@
 
+* {
+    /* border: 1px solid gold; */
+}
 
 body, html {
     height: 100%;
@@ -47,4 +50,14 @@ body, html {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.priceWidth {
+    max-width: 120px;
+}
+
+@media (max-width: 850px) {
+    .hideMe {
+        display: none;
+    }
 }
