@@ -53,30 +53,30 @@
 
         <form ng-submit="ctrl.editStock(ctrl.oneStock);  ctrl.changeInclude('spreadsheet')">
             <div class="field">
-              <label class="label">Stock Symbol {{ctrl.oneStock.symbol}}</label>
+              <label class="label">Stock Symbol</label>
               <div class="control">
-                <input class="input" type="text" ng-value="{{ctrl.oneStock.symbol}}" ng-model="ctrl.symbol">
+                <input class="input" type="text" placeholder="{{ctrl.oneStock.symbol}}" ng-model="ctrl.symbol">
               </div>
             </div>
 
             <div class="field">
-              <label class="label">Stock Name {{ctrl.oneStock.name}}</label>
+              <label class="label">Stock Name</label>
               <div class="control">
-                <input class="input" type="text" ng-value="{{ctrl.oneStock.name}}" ng-model="ctrl.name">
+                <input class="input" type="text" placeholder="{{ctrl.oneStock.name}}" ng-model="ctrl.name">
               </div>
             </div>
 
             <div class="field">
               <label class="label">Shares Owned</label>
               <div class="control">
-                <input class="input" type="number" step=".0001" ng-value={{ctrl.oneStock.shares}} ng-model="ctrl.shares">
+                <input class="input" type="number" step=".0001" placeholder="{{ctrl.oneStock.shares}}" ng-model="ctrl.shares">
               </div>
             </div>
 
             <div class="field">
               <label class="label">Total Paid</label>
               <div class="control">
-                <input class="input" type="number" step=".01" ng-value={{ctrl.oneStock.cost}} ng-model="ctrl.cost">
+                <input class="input" type="number" step=".01" placeholder="{{ctrl.oneStock.cost}}" ng-model="ctrl.cost">
               </div>
             </div>
 
