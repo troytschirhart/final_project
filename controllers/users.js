@@ -103,6 +103,7 @@ router.delete('/:user/:id', (req, res) => {
         if (err) {
             console.log(err);
         } else {
+            // Find the index of the stock in the user's positionList
             console.log('req.params: ', req.params);
             let idString = req.params.id.toString();
             console.log(idString);
@@ -140,8 +141,6 @@ router.delete('/:user/:id', (req, res) => {
         }
     })
 })
-
-
 
 
 // ===================================== Export Router

@@ -1,7 +1,4 @@
 
-* {
-    /* border: 1px solid gold; */
-}
 
 body, html {
     height: 100%;
@@ -10,21 +7,15 @@ body, html {
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
-    /* background-color: lightblue; */
 }
 
 .thing {
     border: 1px solid red;
 }
 
-.column {
-    /* border: 1px solid gold; */
-}
-
 .total-value {
     text-shadow: 1px 1px black;
 }
-
 
 .home-text {
     padding-top: 50px;
