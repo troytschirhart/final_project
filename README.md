@@ -1,4 +1,10 @@
-# final_project
+# final_project: Total Value
+
+## Link to the functioning application
+https://guarded-springs-34412.herokuapp.com/
+
+## Concept
+* An application that store stocks, retrieve their current price, and calculate their total value.
 
 ## User Stories
 1. I, as a user, will be able to log in to the financial portfolio tracker.
@@ -28,8 +34,4 @@ The following features will meet MVP:
 
 Stretch goals:
 1. Track cost basis for each stock purchase
-2. Estimate taxes when shares are sold?
-3. Use average or specified cost basis?  Use an array of arrays?
-4. Assets and Liabilities
-
-## Wireframes
+2. Include other assets and liabilities (e.g., bank accounts and mortgages)
